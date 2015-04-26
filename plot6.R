@@ -26,19 +26,25 @@ relevantSCC <- filter(sccTable, EI.Sector == "Mobile - On-Road Diesel Heavy Duty
                             EI.Sector == "Mobile - On-Road Gasoline Light Duty Vehicles" 
 ) 
 
-# Prepare data and plot it...
-filter(emissionData, fips == "24510" | fips == "06037", SCC %in% relevantSCC$SCC) %>%
+# Prepare data...
+plotData <- filter(emissionData, fips == "24510" | fips == "06037", SCC %in% relevantSCC$SCC) %>%
       group_by(fips, year) %>%
       summarize(totalEmission = sum(Emissions)) %>%
-      ggplot(aes(x = year, y = totalEmission, group = fips, shape = fips)) +
-      geom_line() +
-      geom_point(size=3, fill="white") +
+      mutate(totalEmission = totalEmission / 1e3)
+
+plotData$fips[plotData$fips == "24510"] <- "Baltimore City, MD"
+plotData$fips[plotData$fips == "06037"] <- "Los Angeles County, CA"
+
+# Plot data...
+ggplot(plotData, aes(x = year, y = totalEmission)) +
+      facet_grid(. ~ fips) +
+      geom_bar(stat="identity", fill = "Grey") +
+      stat_smooth(method="lm", se=FALSE, colour = "Red") +
       xlab("Year") +
-      ylab("PM2.5 emissions (in tons)") +
+      ylab("PM2.5 emissions (in thousand tons)") +
       ggtitle("Total emissions of PM2.5 from motor vehicles") +
-      theme(plot.title = element_text(lineheight=.8, face="bold")) +
-      scale_shape_discrete(breaks=c("24510","06037"), labels=c("Baltimore City, MD", "Los Angeles County, CA")) +
-      theme(legend.title=element_blank())
+      theme(plot.title = element_text(face="bold", vjust=1)) +
+      scale_x_continuous(limits = c(1997.5, 2009.5), breaks = c(1999, 2002, 2005, 2008))
 
 # Save plot to file..
 ggsave(destFilePath, width=9, height=6.6)

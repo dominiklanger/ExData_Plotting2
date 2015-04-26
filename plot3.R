@@ -22,15 +22,15 @@ emissionData <- readRDS(emissionsDataFilePath) # This line will likely take a fe
 filter(emissionData, fips == "24510") %>%
       group_by(type, year) %>%
       summarize(totalEmission = sum(Emissions)) %>%
-      ggplot(aes(x = year, y = totalEmission, group = type, shape = type)) +
-            geom_line() +
-            geom_point(size=3, fill="white") +
+      ggplot(aes(x = year, y = totalEmission)) +
+            facet_grid(. ~ type) +
+            geom_bar(stat="identity", fill = "Grey") +
+            stat_smooth(method="lm", se=FALSE, colour = "Red") +
             xlab("Year") +
             ylab("PM2.5 emissions (in tons)") +
-            ggtitle("Total emissions of PM2.5 by source in the Baltimore City, Maryland") +
-            theme(plot.title = element_text(lineheight=.8, face="bold")) +
-            scale_shape_discrete(breaks=c("POINT","NONPOINT","ON-ROAD", "NON-ROAD")) +
-            theme(legend.title=element_blank())
-
+            ggtitle("Total emissions of PM2.5 by source in Baltimore City, Maryland") +
+            theme(plot.title = element_text(face="bold", vjust=1)) + 
+            scale_x_continuous(limits = c(1997.5, 2009.5), breaks = c(1999, 2002, 2005, 2008))
+            
 # Save plot to file..
 ggsave(destFilePath, width=9, height=6.6)

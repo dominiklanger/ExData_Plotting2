@@ -1,7 +1,6 @@
 # Using the base plotting system, this R code file creates a PNG file with a plot showing the total PM2.5 emission from coal combustion-related sources for each of the years 1999, 2002, 2005, and 2008.
 # The generated plot serves answering the following question: Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
 
-
 library(dplyr) # Package required for data manipulation.
 
 source("downloadData.R") # Loading a custom function to load the source data.
@@ -33,5 +32,7 @@ plotData <- filter(emissionData, SCC %in% relevantSCC$SCC) %>%
 
 # Create plot file...
 png(filename = destFilePath, width = 480, height = 480, units = "px") #Set graphics device to PNG.
-barplot(plotData$totalEmission, names = plotData$year, main ="Total emissions of PM2.5 from sources related to\ncoal combustion in the United States", xlab = "Year", ylab = "PM2.5 emissions (in thousand tons)", ylim = c(0, 600))
+barMidPoints <- barplot(plotData$totalEmission, names = plotData$year, axis.lty = 1, main ="Total emissions of PM2.5 from sources related to\ncoal combustion in the United States", xlab = "Year", ylab = "PM2.5 emissions (in thousand tons)", ylim = c(0, 650))
+lmFit <- lm(plotData$totalEmission ~ barMidPoints[, 1]) # Create regression line params.
+abline(lmFit, col = "Red", lwd = 2) # Add regression line.
 dev.off() #Leave PNG graphics device again.
