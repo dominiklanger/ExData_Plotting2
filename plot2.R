@@ -25,5 +25,5 @@ plotData <- filter(emissionData, fips == "24510") %>%
 
 # Create plot file...
 png(filename = destFilePath, width = 480, height = 480, units = "px") #Set graphics device to PNG.
-barplot(plotData$totalEmission, names = plotData$year, main ="Total emissions of PM2.5 in the Baltimore City, Maryland", xlab = "Year", ylab = "PM2.5 emission (in thausand tons)", ylim = c(0, 3.5))
+barplot(plotData$totalEmission, names = plotData$year, main ="Total emissions of PM2.5 in the Baltimore City, Maryland", xlab = "Year", ylab = "PM2.5 emissions (in thausand tons)", ylim = c(0, 3.5))
 dev.off() #Leave PNG graphics device again.
