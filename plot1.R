@@ -23,7 +23,7 @@ plotData <- group_by(emissionData, year) %>%
 
 # Create plot file...
 png(filename = destFilePath, width = 480, height = 480, units = "px") #Set graphics device to PNG.
-points <- barplot(plotData$totalEmission, names.arg = plotData$year, axis.lty = 1, main ="Total emissions of PM2.5 in the United States", xlab = "Year", ylab = "PM2.5 emissions (in Mio. tons)", ylim = c(0, 8))
-lmFit <- lm(plotData$totalEmission ~ points[, 1])
+barMidPoints <- barplot(plotData$totalEmission, names.arg = plotData$year, axis.lty = 1, main ="Total emissions of PM2.5 in the United States", xlab = "Year", ylab = "PM2.5 emissions (in Mio. tons)", ylim = c(0, 8))
+lmFit <- lm(plotData$totalEmission ~ barMidPoints[, 1])
 abline(lmFit, col = "Red", lwd = 2)
 dev.off() #Leave PNG graphics device again.
