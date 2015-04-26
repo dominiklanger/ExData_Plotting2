@@ -18,19 +18,26 @@ downloadData(dataDirectory)
 # Read in data from source data file:
 emissionData <- readRDS(emissionsDataFilePath) # This line will likely take a few seconds. Be patient!
 
-# Prepare data and plot it...
-filter(emissionData, fips == "24510") %>%
+# Prepare data...
+plotData <- filter(emissionData, fips == "24510") %>%
       group_by(type, year) %>%
-      summarize(totalEmission = sum(Emissions)) %>%
-      ggplot(aes(x = year, y = totalEmission)) +
-            facet_grid(. ~ type) +
-            geom_bar(stat="identity", fill = "Grey") +
-            stat_smooth(method="lm", se=FALSE, colour = "Red") +
-            xlab("Year") +
-            ylab("PM2.5 emissions (in tons)") +
-            ggtitle("Total emissions of PM2.5 by source in Baltimore City, Maryland") +
-            theme(plot.title = element_text(face="bold", vjust=1)) + 
-            scale_x_continuous(limits = c(1997.5, 2009.5), breaks = c(1999, 2002, 2005, 2008))
+      summarize(totalEmission = sum(Emissions))
+
+plotData$type[plotData$type == "POINT"] <- "point"
+plotData$type[plotData$type == "NONPOINT"] <- "non-point"
+plotData$type[plotData$type == "ON-ROAD"] <- "on-road"
+plotData$type[plotData$type == "NON-ROAD"] <- "non-road"
+      
+# Plot data...      
+ggplot(plotData, aes(x = year, y = totalEmission)) +
+      facet_grid(. ~ type) +
+      geom_bar(stat="identity", fill = "Grey") +
+      stat_smooth(method="lm", se=FALSE, colour = "Red") +
+      xlab("Year") +
+      ylab("PM2.5 emissions (in tons)") +
+      ggtitle("Total emissions of PM2.5 by source in Baltimore City, Maryland") +
+      theme(plot.title = element_text(face="bold", vjust=1)) + 
+      scale_x_continuous(limits = c(1997.5, 2009.5), breaks = c(1999, 2002, 2005, 2008))
             
 # Save plot to file..
 ggsave(destFilePath, width=9, height=6.6)
