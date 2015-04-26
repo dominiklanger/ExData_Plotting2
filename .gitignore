@@ -43,3 +43,4 @@ Temporary Items
 .apdisk
 data/exdata_data_NEI_data.zip
 *.rds
+.Rhistory
