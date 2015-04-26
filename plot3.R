@@ -10,7 +10,6 @@ source("downloadData.R") # Loading a custom function to load the source data.
 # Declaring constants with file/directory paths:
 dataDirectory = "./data"
 emissionsDataFilePath = file.path(dataDirectory, "summarySCC_PM25.rds")
-sccTableFilePath = file.path(dataDirectory, "Source_Classification_Code.rds")
 destFilePath = "./Plot3.png"
 
 # Ensure that source data files are available:
