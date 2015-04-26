@@ -1,5 +1,5 @@
 # Using the base plotting system, this R code file creates a PNG file with a plot showing the total PM2.5 emission from all sources in the Baltimore City, Maryland (fips == "24510") for each of the years 1999, 2002, 2005, and 2008.
-# The generated plot serves answering the following question: Have total emissions from PM2.5 decreased in the in the Baltimore City, Maryland from 1999 to 2008?
+# The generated plot serves answering the following question: Have total emissions from PM2.5 decreased in the in Baltimore City, Maryland from 1999 to 2008?
 
 library(dplyr) # Package required for data manipulation.
 
@@ -24,5 +24,7 @@ plotData <- filter(emissionData, fips == "24510") %>%
 
 # Create plot file...
 png(filename = destFilePath, width = 480, height = 480, units = "px") #Set graphics device to PNG.
-barplot(plotData$totalEmission, names = plotData$year, main ="Total emissions of PM2.5 in the Baltimore City, Maryland", xlab = "Year", ylab = "PM2.5 emissions (in thousand tons)", ylim = c(0, 3.5))
+barMidPoints <- barplot(plotData$totalEmission, names = plotData$year, main ="Total emissions of PM2.5 in Baltimore City, Maryland", xlab = "Year", ylab = "PM2.5 emissions (in thousand tons)", ylim = c(0, 3.5))
+lmFit <- lm(plotData$totalEmission ~ barMidPoints[, 1]) # Create regression line params.
+abline(lmFit, col = "Red", lwd = 2) # Add regression line.
 dev.off() #Leave PNG graphics device again.

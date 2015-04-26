@@ -24,6 +24,6 @@ plotData <- group_by(emissionData, year) %>%
 # Create plot file...
 png(filename = destFilePath, width = 480, height = 480, units = "px") #Set graphics device to PNG.
 barMidPoints <- barplot(plotData$totalEmission, names.arg = plotData$year, axis.lty = 1, main ="Total emissions of PM2.5 in the United States", xlab = "Year", ylab = "PM2.5 emissions (in Mio. tons)", ylim = c(0, 8))
-lmFit <- lm(plotData$totalEmission ~ barMidPoints[, 1])
-abline(lmFit, col = "Red", lwd = 2)
+lmFit <- lm(plotData$totalEmission ~ barMidPoints[, 1]) # Create regression line params.
+abline(lmFit, col = "Red", lwd = 2) # Add regression line.
 dev.off() #Leave PNG graphics device again.
