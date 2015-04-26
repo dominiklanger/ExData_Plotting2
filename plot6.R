@@ -20,10 +20,17 @@ emissionData <- readRDS(emissionsDataFilePath) # This line will likely take a fe
 sccTable <- readRDS(sccTableFilePath)
 
 # Filter SCC for sources related to motor vehicles:
-relevantSCC <- filter(sccTable, EI.Sector == "Mobile - On-Road Diesel Heavy Duty Vehicles" | 
-                            EI.Sector == "Mobile - On-Road Diesel Light Duty Vehicles" | 
-                            EI.Sector == "Mobile - On-Road Gasoline Heavy Duty Vehicles" |
-                            EI.Sector == "Mobile - On-Road Gasoline Light Duty Vehicles" 
+relevantSCC <- filter(sccTable, 
+                        EI.Sector == "Mobile - Aircraft" | 
+                        EI.Sector == "Mobile - Commercial Marine Vessels" | 
+                        EI.Sector == "Mobile - Locomotives" | 
+                        EI.Sector == "Mobile - Non-Road Equipment - Diesel" | 
+                        EI.Sector == "Mobile - Non-Road Equipment - Gasoline" | 
+                        EI.Sector == "Mobile - Non-Road Equipment - Other" | 
+                        EI.Sector == "Mobile - On-Road Diesel Heavy Duty Vehicles" | 
+                        EI.Sector == "Mobile - On-Road Diesel Light Duty Vehicles" | 
+                        EI.Sector == "Mobile - On-Road Gasoline Heavy Duty Vehicles" |
+                        EI.Sector == "Mobile - On-Road Gasoline Light Duty Vehicles" 
 ) 
 
 # Prepare data...
