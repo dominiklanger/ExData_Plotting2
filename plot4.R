@@ -15,7 +15,7 @@ destFilePath = "./Plot4.png"
 # Ensure that source data files are available:
 downloadData(dataDirectory)
 
-# Read in data from source data file:
+# Read in data from source data files:
 emissionData <- readRDS(emissionsDataFilePath) # This line will likely take a few seconds. Be patient!
 sccTable <- readRDS(sccTableFilePath)
 

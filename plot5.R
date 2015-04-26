@@ -15,7 +15,7 @@ destFilePath = "./Plot5.png"
 # Ensure that source data files are available:
 downloadData(dataDirectory)
 
-# Read in data from source data file:
+# Read in data from source data files:
 emissionData <- readRDS(emissionsDataFilePath) # This line will likely take a few seconds. Be patient!
 sccTable <- readRDS(sccTableFilePath)
 
@@ -35,5 +35,5 @@ plotData <- filter(emissionData, fips == "24510", SCC %in% relevantSCC$SCC) %>%
 
 # Create plot file...
 png(filename = destFilePath, width = 480, height = 480, units = "px") #Set graphics device to PNG.
-barplot(plotData$totalEmission, names = plotData$year, main ="Total emissions of PM2.5 from sources related to\nmotor vehicles in Baltimore City, ML", xlab = "Year", ylab = "PM2.5 emissions (in thousand tons)", ylim = c(0, 400))
+barplot(plotData$totalEmission, names = plotData$year, main ="Total emissions of PM2.5 from sources related to\nmotor vehicles in Baltimore City, Maryland", xlab = "Year", ylab = "PM2.5 emissions (in thousand tons)", ylim = c(0, 400))
 dev.off() #Leave PNG graphics device again.
